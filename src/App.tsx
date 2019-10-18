@@ -16,18 +16,19 @@ interface AppProps {
   name: string;
 }
 
+// initial react function component
+// main component
 const App: FC = () => {
   const content = "This is content";
   const name = "Mike";
   return (
     <div className="App">
-      <Header name={name} />
-      <Content content={content} />
-      <Footer companyName={'Schedulicity'} />
+      
     </div>
   );
 };
 
+// Different type of functional component with explicit props
 const Header: React.FC<HeaderProps> = (props) => {
   return (
     <div style={{ backgroundColor: 'yellow', height: '10vh'}}>
@@ -39,47 +40,58 @@ const Header: React.FC<HeaderProps> = (props) => {
   );
 };
 
-const Content: React.FC<any> = (props: any) => <div className="content">{props.content}</div>;
+// Straight function component.
+const Content: React.FC<any> = (props) => <div className="content">{props.content}</div>;
 
+// Pure component or state component
 class Footer extends React.Component<FooterProps> {
 
+  // private prop
   private name: string;
   
+  // constructor
   constructor(props: FooterProps) {
+    // super function
     super(props);
+    
+    // private prop assignment
     this.name = props.companyName;
   }
 
+  // state property
   state = {
     counter: 0
   };
 
+  // component is ready
   componentDidMount = async () => {
-    const result = await this.fetchTodo();
-    console.log(result.data);
+    // api calls here
   }
 
-
-  fetchTodo = () => {
+  // api call
+  private fetchTodo = () => {
+    const url = 'https://jsonplaceholder.typicode.com/todos/15';
     try {
-      return axios.get('https://jsonplaceholder.typicode.com/todos/15');
     } catch (error) {
-      throw error;
     }
   }
 
+  // increment function
   increment = () => {
     this.setState({
       counter: this.state.counter + 1
     })
   }
 
+  // decrement function
   decrement = () => {
     this.setState({
       counter: this.state.counter - 1
     })
   }
 
+  // render function
+  // ONLY needed function
   render() {
     let decrementButton;
     if (this.state.counter > 0) {
