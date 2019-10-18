@@ -1,46 +1,56 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Avatar from './components/Avatar';
 import axios from 'axios';
 import "./App.css";
 
 interface HeaderProps {
   name: string;
+  toggleAvatar(): void;
+  showAvatar: boolean;
 }
 
 interface FooterProps {
   companyName: string;
 }
 
-interface AppProps {
-  content: string;
-  name: string;
-}
-
-// initial react function component
-// main component
+// Main Component
 const App: FC = () => {
   const content = "This is content";
   const name = "Mike";
+
+
+  // No state so this won't work!
+  let showAvatar = true;
+  function toggle() {
+    showAvatar = !showAvatar;
+  }
+
   return (
     <div className="App">
-      
+      <Header 
+        name={name} 
+        toggleAvatar={toggle} 
+        showAvatar={showAvatar} 
+      />
     </div>
   );
 };
 
 // Different type of functional component with explicit props
 const Header: React.FC<HeaderProps> = (props) => {
+  const avatar = props.showAvatar ? <Avatar /> : null;
   return (
     <div style={{ backgroundColor: 'yellow', height: '10vh'}}>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '3vh' }}>
         <h1 style={{ margin: '0', marginRight: '4px'}}>Hello {props.name}</h1> 
-        <Avatar />
+        {avatar}
+        <button onClick={props.toggleAvatar}>Toggle Avatar</button>
       </div>
     </div>
   );
 };
 
-// Straight function component.
+// Inline function component.
 const Content: React.FC<any> = (props) => <div className="content">{props.content}</div>;
 
 // Pure component or state component
